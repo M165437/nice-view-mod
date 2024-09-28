@@ -9,6 +9,8 @@
 #include "util.h"
 
 LV_IMG_DECLARE(bolt);
+LV_IMG_DECLARE(bt);
+LV_IMG_DECLARE(bt_no_signal);
 
 void rotate_canvas(lv_obj_t *canvas, lv_color_t cbuf[]) {
     static lv_color_t cbuf_tmp[CANVAS_SIZE * CANVAS_SIZE];
@@ -40,6 +42,17 @@ void draw_battery(lv_obj_t *canvas, const struct status_state *state) {
         lv_draw_img_dsc_t img_dsc;
         lv_draw_img_dsc_init(&img_dsc);
         lv_canvas_draw_img(canvas, 9, -1, &bolt, &img_dsc);
+    }
+}
+
+void draw_bluetooth(lv_obj_t *canvas, bool isConnected) {
+    lv_draw_img_dsc_t img_dsc;
+    lv_draw_img_dsc_init(&img_dsc);
+    
+    if (isConnected) {
+        lv_canvas_draw_img(canvas, 56, 0, &bt, &img_dsc);
+    } else {
+        lv_canvas_draw_img(canvas, 56, 0, &bt_no_signal, &img_dsc);
     }
 }
 

@@ -70,21 +70,17 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     switch (state->selected_endpoint.transport) {
     case ZMK_TRANSPORT_USB:
         strcat(output_text, LV_SYMBOL_USB);
+        lv_canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, output_text);
         break;
     case ZMK_TRANSPORT_BLE:
         if (state->active_profile_bonded) {
-            if (state->active_profile_connected) {
-                strcat(output_text, LV_SYMBOL_BLUETOOTH);
-            } else {
-                strcat(output_text, LV_SYMBOL_CLOSE);
-            }
+            draw_bluetooth(canvas, state->active_profile_connected);
         } else {
             strcat(output_text, LV_SYMBOL_SETTINGS);
+            lv_canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, output_text);
         }
         break;
     }
-
-    lv_canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, output_text);
 
     // Draw WPM
     lv_canvas_draw_rect(canvas, 0, 21, 68, 42, &rect_white_dsc);
