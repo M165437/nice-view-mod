@@ -23,8 +23,44 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include "peripheral_status.h"
 
-LV_IMG_DECLARE(balloon);
-LV_IMG_DECLARE(mountain);
+// LV_IMG_DECLARE(balloon);
+// LV_IMG_DECLARE(mountain);
+
+LV_IMG_DECLARE(diamond_00);
+LV_IMG_DECLARE(diamond_01);
+LV_IMG_DECLARE(diamond_02);
+LV_IMG_DECLARE(diamond_03);
+LV_IMG_DECLARE(diamond_04);
+LV_IMG_DECLARE(diamond_05);
+LV_IMG_DECLARE(diamond_06);
+LV_IMG_DECLARE(diamond_07);
+LV_IMG_DECLARE(diamond_08);
+LV_IMG_DECLARE(diamond_09);
+LV_IMG_DECLARE(diamond_10);
+LV_IMG_DECLARE(diamond_11);
+LV_IMG_DECLARE(diamond_12);
+LV_IMG_DECLARE(diamond_13);
+LV_IMG_DECLARE(diamond_14);
+LV_IMG_DECLARE(diamond_15);
+
+const lv_img_dsc_t *anim_imgs[] = {
+    &diamond_00,
+    &diamond_01,
+    &diamond_02,
+    &diamond_03,
+    &diamond_04,
+    &diamond_05,
+    &diamond_06,
+    &diamond_07,
+    &diamond_08,
+    &diamond_09,
+    &diamond_10,
+    &diamond_11,
+    &diamond_12,
+    &diamond_13,
+    &diamond_14,
+    &diamond_15,
+};
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -113,9 +149,17 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
 
-    lv_obj_t *art = lv_img_create(widget->obj);
-    bool random = sys_rand32_get() & 1;
-    lv_img_set_src(art, random ? &balloon : &mountain);
+    // lv_obj_t *art = lv_img_create(widget->obj);
+    // bool random = sys_rand32_get() & 1;
+    // lv_img_set_src(art, random ? &balloon : &mountain);
+
+    lv_obj_t *art = lv_animimg_create(widget->obj);
+    lv_obj_center(art);
+    lv_animimg_set_src(art, (const void **) anim_imgs, 16);
+    lv_animimg_set_duration(art, 1333);
+    lv_animimg_set_repeat_count(art, LV_ANIM_REPEAT_INFINITE);
+    lv_animimg_start(art);
+    
     lv_obj_align(art, LV_ALIGN_TOP_LEFT, 0, 0);
 
     sys_slist_append(&widgets, &widget->node);
